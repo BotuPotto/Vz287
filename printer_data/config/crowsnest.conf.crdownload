@@ -1,8 +1,9 @@
 #### crowsnest.conf
-#### This is the default config after installation.
-#### It is also used as the default config in MainsailOS.
-#### For details on how to configure this to your needs, see:
+#### This is a typical default config.
+#### Also used as default in mainsail / MainsailOS
+#### See:
 #### https://github.com/mainsail-crew/crowsnest/blob/master/README.md
+#### for details to configure to your needs.
 
 
 #####################################################################
@@ -17,9 +18,8 @@
 ####    Port 8083 equals /webcam4/?action=[stream/snapshot]     #####
 ####                                                            #####
 ####    Note: These ports are default for most Mainsail         #####
-####    installations. Using any other port would involve       #####
-####    changing the proxy configuration or using URLs          #####
-####    with the specific port like                             #####
+####    installations. To use any other port would involve      #####
+####    changing the proxy configuration or using directly      #####
 ####    http://<ip>:<port>/?action=[stream/snapshot]            #####
 ####                                                            #####
 #####################################################################
@@ -32,14 +32,17 @@
 log_path: /home/pi/printer_data/logs/crowsnest.log
 log_level: verbose                      # Valid Options are quiet/verbose/debug
 delete_log: false                       # Deletes log on every restart, if set to true
-no_proxy: false                         # If set to true, no reverse proxy is required. Only change this, if you know what you are doing.
+no_proxy: false
 
 [cam 1]
-mode: ustreamer                         # ustreamer - Provides MJPG and snapshots. (All devices)
-                                        # camera-streamer - Provides WebRTC, MJPG and snapshots. (only RPiOS + RPi 0/1/2/3/4)
-port: 8080                              # HTTP/MJPG stream/snapshot port
-device: /dev/video0                     # See log for available devices
-resolution: 640x480                     # <width>x<height> format
-max_fps: 15                             # If hardware supports it, it will be forced, otherwise ignored/coerced.
-#custom_flags:                          # You can run the stream services with custom flags.
-#v4l2ctl:                               # Add v4l2-ctl parameters to setup your camera, see log for your camera capabilities.
+mode: ustreamer #camera-streamer                         # ustreamer - Fornisce mjpg e istantanee. (Tutti i dispositivi)
+enable_rtsp: true                      # Se viene utilizzato camera-streamer, questo abilita anche l'utilizzo di un server rtsp
+rtsp_port: 8554                         # Imposta porte diverse per ogni dispositivo!
+port: 8080                              # Porta stream/istantanea HTTP/MJPG
+device: /dev/video0                     # Vedi Log per quelli disponibili ...
+#device: /dev/v4l/by-id/usb-Microsoft_Microsoft®_LifeCam_HD-3000-video-index0
+resolution: 1280x720                    # formato larghezzaxaltezza
+max_fps: 15                             # Se l'hardware lo supporta, verrà forzato, altrimenti ignorato/coartato.
+#custom_flags:                          # È possibile eseguire i servizi di streaming con flag personalizzati.
+#custom_flags: --camera-height=1080 --camera-width=1920 --camera-video.height=1080 --camera-snapshot.height=1080 --camera-format=YUYV 
+4l2ctl:  auto_exposure=1,exposure_time_absolute=250,       # Aggiungi parametri v4l2-ctl per configurare la tua telecamera, vedi Log per le capacità della tua telecamera.
